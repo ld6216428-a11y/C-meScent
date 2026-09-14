@@ -1,47 +1,44 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>C’meScent — Find Your Signature Scent</title>
+  <title>C’meScent — Discover Your Signature Scent</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-  --cream: #f7f4ee;
-  --white: #ffffff;
-  --pink: #e8d8d0;
-  --pink-dark: #a98578;
-  --peach: #eadcc9;
-  --lavender: #deded5;
-  --green: #d8dfd4;
-  --brown: #403b35;
-  --muted: #817b72;
-  --border: #e5dfd6;
-  --shadow: 0 8px 24px rgba(64, 59, 53, 0.06);
-  --radius: 16px;
+      --mahogany: #4b2d23;
+      --mahogany-dark: #291a15;
+      --brown: #765548;
+      --cream: #f7f3ee;
+      --white: #ffffff;
+      --soft: #eee5dd;
+      --line: #ded2c8;
+      --text: #30231e;
+      --muted: #87766d;
+      --gold: #a47a4e;
     }
 
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
     }
 
     html {
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
     }
 
-body {
-  font-family: "DM Sans", sans-serif;
-  color: var(--brown);
-  background: #f7f4ee;
-  min-height: 100vh;
-}
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--text);
+      font-family: "DM Sans", Arial, sans-serif;
+    }
 
     button,
     input,
@@ -54,351 +51,299 @@ body {
       cursor: pointer;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    img {
+      max-width: 100%;
     }
 
     .container {
       width: min(1180px, 92%);
-      margin: auto;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      background: var(--mahogany-dark);
+      color: white;
+      text-align: center;
+      padding: 9px 15px;
+      font-size: 12px;
+      letter-spacing: .04em;
     }
 
     .navbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(255, 250, 245, 0.9);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(238, 228, 223, 0.8);
+      z-index: 20;
     }
 
     .nav-inner {
       min-height: 82px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 25px;
+      gap: 28px;
     }
 
     .logo {
-      font-family: "Playfair Display", serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--brown);
+      color: var(--mahogany);
+      font-family: "Allura", cursive;
+      font-size: 42px;
+      line-height: 1;
+      text-decoration: none;
       white-space: nowrap;
-    }
-
-    .logo span {
-      color: var(--pink-dark);
     }
 
     .nav-links {
       display: flex;
       align-items: center;
+      gap: 24px;
+      margin-left: auto;
+    }
+
+    .nav-links button {
+      background: none;
+      border: 0;
+      color: var(--text);
+      font-size: 13px;
+      padding: 8px 0;
+    }
+
+    .nav-links button.active {
+      color: var(--gold);
+      border-bottom: 1px solid var(--gold);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
     }
 
-    .nav-btn {
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      padding: 11px 15px;
-      border-radius: 30px;
-      transition: 0.25s ease;
-    }
-
-    .nav-btn:hover,
-    .nav-btn.active {
-      color: var(--brown);
-      background: var(--pink);
-    }
-
-    .nav-profile {
-      width: 42px;
-      height: 42px;
+    .icon-button {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--mahogany);
       border-radius: 50%;
-      border: 0;
-      background: var(--lavender);
-      font-weight: 700;
-      color: var(--brown);
+      position: relative;
     }
 
-    main {
-      padding: 35px 0 80px;
+    .badge {
+      position: absolute;
+      top: -5px;
+      right: -4px;
+      background: var(--mahogany);
+      color: white;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 10px;
+      display: grid;
+      place-items: center;
+    }
+
+    .menu-button {
+      display: none;
     }
 
     .page {
       display: none;
-      animation: fadeIn 0.35s ease;
     }
 
     .page.active {
       display: block;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .hero {
+      background: var(--white);
+      padding: 70px 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    .hero {
-  min-height: 470px;
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  align-items: center;
-  gap: 50px;
-  padding: 45px;
-  border-radius: 20px;
-  background: #ebe5dc;
-  overflow: hidden;
-}
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 55px;
+    }
 
     .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 12px;
+      color: var(--gold);
+      font-size: 11px;
       font-weight: 700;
-      color: var(--pink-dark);
-      margin-bottom: 15px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
     }
 
     h1,
     h2,
     h3 {
-      font-family: "Playfair Display", serif;
+      font-family: "Cormorant Garamond", Georgia, serif;
       font-weight: 600;
     }
 
     h1 {
-      font-size: clamp(42px, 6vw, 72px);
-      line-height: 1.05;
-      margin-bottom: 23px;
+      font-size: clamp(48px, 6vw, 86px);
+      line-height: .95;
+      margin: 18px 0;
+      color: var(--mahogany-dark);
     }
 
     h2 {
-      font-size: clamp(30px, 4vw, 46px);
-      margin-bottom: 12px;
+      font-size: 52px;
+      line-height: 1;
+      margin: 10px 0 18px;
+      color: var(--mahogany-dark);
     }
 
     h3 {
-      font-size: 22px;
+      font-size: 29px;
+      margin: 8px 0;
+      color: var(--mahogany);
     }
 
-    .hero p {
-      max-width: 500px;
-      color: var(--muted);
+    p {
       line-height: 1.8;
-      margin-bottom: 28px;
     }
 
-    .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 0;
-  border-radius: 8px;
-  padding: 13px 22px;
-  background: var(--brown);
-  color: white;
-  font-weight: 600;
-  transition: 0.25s ease;
-}
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
+    .hero-copy p {
+      max-width: 520px;
+      color: var(--muted);
     }
 
-    .btn-light {
-      background: white;
-      color: var(--brown);
-      border: 1px solid var(--border);
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
     }
 
-    .btn-pink {
-      background: var(--pink);
-      color: var(--brown);
-    }
-
-    .hero-art {
-      min-height: 340px;
-      position: relative;
-      display: grid;
-      place-items: center;
-    }
-
-    .perfume-bottle {
-      width: 180px;
-      height: 230px;
-      border-radius: 28px 28px 35px 35px;
-      background: linear-gradient(135deg, #fff, #efc9d1);
-      border: 7px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 25px 45px rgba(126, 85, 95, 0.18);
-      position: relative;
-      transform: rotate(-8deg);
-    }
-
-    .perfume-bottle::before {
-      content: "";
-      position: absolute;
-      width: 78px;
-      height: 48px;
-      background: #c9a6aa;
-      top: -54px;
-      left: 44px;
-      border-radius: 8px 8px 2px 2px;
-    }
-
-    .perfume-bottle::after {
-      content: "C’meScent";
-      position: absolute;
-      left: 25px;
-      right: 25px;
-      top: 100px;
-      padding: 15px 5px;
-      text-align: center;
-      font-family: "Playfair Display", serif;
-      font-size: 18px;
-      color: var(--brown);
-      background: rgba(255, 255, 255, 0.65);
-      border-radius: 12px;
-    }
-
-    .floating-card {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-      padding: 15px 18px;
-      border-radius: 18px;
-      box-shadow: var(--shadow);
+    .button {
+      border: 1px solid var(--mahogany);
+      background: var(--mahogany);
+      color: white;
+      padding: 13px 21px;
+      border-radius: 0;
       font-size: 13px;
+      font-weight: 600;
     }
 
-    .floating-card.one {
-      top: 25px;
-      right: 10px;
+    .button.secondary {
+      background: white;
+      color: var(--mahogany);
     }
 
-    .floating-card.two {
-      bottom: 15px;
-      left: 5px;
+    .button.light {
+      background: var(--soft);
+      border-color: var(--soft);
+      color: var(--mahogany);
+    }
+
+    .hero-photo {
+      width: 100%;
+      height: 500px;
+      background: var(--soft);
+      overflow: hidden;
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .section {
+      padding: 75px 0;
+    }
+
+    .section.white {
+      background: white;
     }
 
     .section-heading {
       display: flex;
-      align-items: end;
       justify-content: space-between;
-      gap: 20px;
-      margin: 55px 0 24px;
+      align-items: end;
+      gap: 30px;
+      margin-bottom: 30px;
     }
 
     .section-heading p {
+      max-width: 460px;
       color: var(--muted);
-      max-width: 480px;
-      line-height: 1.7;
+      margin: 0;
     }
 
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
     }
 
     .product-card {
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: 0.25s ease;
-    }
-
-    .product-card:hover {
-      transform: translateY(-5px);
+      background: white;
+      border: 1px solid var(--line);
     }
 
     .product-image {
-      height: 210px;
-      display: grid;
-      place-items: center;
-      position: relative;
-      background: linear-gradient(135deg, #f9e2e5, #eee5f8);
+      width: 100%;
+      height: 310px;
+      object-fit: cover;
+      display: block;
+      background: var(--soft);
     }
 
-    .product-image.green {
-      background: linear-gradient(135deg, #e1eee4, #f7f1df);
+    .product-content {
+      padding: 22px;
     }
 
-    .product-image.peach {
-      background: linear-gradient(135deg, #f9dfcb, #f6e7df);
+    .product-brand {
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
     }
 
-    .mini-bottle {
-      width: 75px;
-      height: 110px;
-      border-radius: 15px 15px 20px 20px;
-      background: linear-gradient(135deg, #fff, #d9b4bd);
-      border: 4px solid rgba(255, 255, 255, 0.75);
-      position: relative;
-      box-shadow: 0 15px 25px rgba(91, 71, 66, 0.15);
+    .product-content h3 {
+      margin: 8px 0;
     }
 
-    .mini-bottle::before {
-      content: "";
-      position: absolute;
-      width: 35px;
-      height: 24px;
-      left: 16px;
-      top: -28px;
-      border-radius: 5px 5px 0 0;
-      background: #b9989d;
-    }
-
-    .product-info {
-      padding: 19px;
-    }
-
-    .product-info h3 {
-      font-size: 20px;
-      margin-bottom: 6px;
-    }
-
-    .product-info p {
+    .product-description {
       color: var(--muted);
       font-size: 13px;
-      margin-bottom: 15px;
+      line-height: 1.7;
+      min-height: 45px;
     }
 
     .product-bottom {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
     }
 
     .price {
+      color: var(--mahogany);
       font-weight: 700;
-      color: var(--brown);
+      font-size: 15px;
     }
 
-    .icon-btn {
-      width: 38px;
-      height: 38px;
-      border: 0;
-      border-radius: 50%;
-      background: var(--pink);
-      color: var(--brown);
+    .small-button {
+      background: white;
+      border: 1px solid var(--line);
+      color: var(--mahogany);
+      padding: 9px 12px;
+      font-size: 12px;
+    }
+
+    .small-button.dark {
+      background: var(--mahogany);
+      color: white;
+      border-color: var(--mahogany);
     }
 
     .feature-grid {
@@ -408,538 +353,1248 @@ body {
     }
 
     .feature-card {
-      padding: 27px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       background: white;
+      padding: 28px;
     }
 
-    .feature-icon {
-      font-size: 30px;
-      margin-bottom: 18px;
+    .feature-number {
+      color: var(--gold);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 38px;
     }
 
     .feature-card p {
       color: var(--muted);
-      line-height: 1.7;
-      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .feed-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .post {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 25px;
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .post-tag {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .post p {
+      color: var(--text);
       font-size: 14px;
     }
 
-    .page-header {
-      padding: 40px;
-      border-radius: 30px;
-      background:
-        radial-gradient(circle at top right, #e9e0f7, transparent 40%),
-        linear-gradient(135deg, #fff0ef, #fffaf5);
-      margin-bottom: 30px;
+    .discover-header {
+      background: var(--mahogany);
+      color: white;
+      padding: 55px;
     }
 
-    .page-header p {
-      color: var(--muted);
-      max-width: 650px;
-      line-height: 1.8;
+    .discover-header h2 {
+      color: white;
     }
 
-    .filter-bar {
+    .discover-header p {
+      max-width: 600px;
+      color: #e7d9d1;
+    }
+
+    .chip-list {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 25px;
-    }
-
-    .chip {
-      border: 1px solid var(--border);
-      background: white;
-      color: var(--muted);
-      padding: 10px 16px;
-      border-radius: 30px;
-      transition: 0.2s ease;
-    }
-
-    .chip:hover,
-    .chip.active {
-      background: var(--pink);
-      color: var(--brown);
-      border-color: var(--pink);
-    }
-
-    .search-box {
-      width: 100%;
-      border: 1px solid var(--border);
-      background: white;
-      border-radius: 30px;
-      padding: 15px 20px;
-      outline: none;
-      margin-bottom: 20px;
-    }
-
-    .search-box:focus {
-      border-color: var(--pink-dark);
-    }
-
-    .post-form,
-    .community-post,
-    .profile-card,
-    .cart-card,
-    .quiz-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 25px;
-      box-shadow: var(--shadow);
-    }
-
-    .post-form {
-      margin-bottom: 25px;
-    }
-
-    textarea,
-    input,
-    select {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 14px;
-      outline: none;
-      background: #fffdfb;
-      color: var(--brown);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 110px;
-      margin: 15px 0;
-    }
-
-    .post-top {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 15px;
-    }
-
-    .avatar {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--lavender);
-      font-weight: 700;
-    }
-
-    .post-top small {
-      color: var(--muted);
-    }
-
-    .post-content {
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 18px;
-    }
-
-    .post-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .post-actions button {
-      border: 0;
-      background: var(--cream);
-      color: var(--muted);
-      padding: 9px 13px;
-      border-radius: 20px;
-    }
-
-    .discover-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .aroma-card {
-      padding: 28px;
-      border-radius: var(--radius);
-      min-height: 220px;
-      background: linear-gradient(135deg, #f5e3e8, #f0e8f8);
-    }
-
-    .aroma-card.green {
-      background: linear-gradient(135deg, #e2eee5, #f8f1dd);
-    }
-
-    .aroma-card p {
-      color: var(--muted);
-      line-height: 1.7;
-      margin-top: 10px;
-    }
-
-    .quiz-card {
+      gap: 9px;
       margin-top: 25px;
     }
 
-    .quiz-question {
-      margin: 20px 0;
+    .chip {
+      background: white;
+      color: var(--mahogany);
+      border: 1px solid var(--line);
+      padding: 10px 16px;
+      font-size: 12px;
     }
 
-    .quiz-question label {
-      display: block;
-      margin: 10px 0;
-      padding: 13px;
-      background: var(--cream);
-      border-radius: 12px;
-      cursor: pointer;
-    }
-
-    .profile-layout {
+    .learning-grid {
       display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
-      gap: 25px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 30px;
     }
 
-    .profile-avatar {
-      width: 95px;
-      height: 95px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--pink);
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 20px;
+    .learning-card {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 25px;
+      text-align: left;
     }
 
-    .profile-card p {
+    .learning-card p {
       color: var(--muted);
-      line-height: 1.8;
-      margin: 8px 0;
+      font-size: 13px;
     }
 
-    .profile-section {
-      margin-bottom: 25px;
+    .finder-box {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 30px;
+      margin-top: 30px;
     }
 
-    .profile-section:last-child {
-      margin-bottom: 0;
-    }
-
-    .profile-section h3 {
-      margin-bottom: 15px;
-    }
-
-    .cart-layout {
+    .finder-form {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 25px;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 15px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    select,
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--text);
+      padding: 13px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .cart-box,
+    .profile-box {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 30px;
     }
 
     .cart-item {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 18px;
-      padding: 15px 0;
-      border-bottom: 1px solid var(--border);
+      gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    .cart-item:last-child {
-      border-bottom: 0;
+    .cart-item h3 {
+      font-size: 25px;
+      margin: 0;
     }
 
-    .cart-thumb {
-      width: 75px;
-      height: 75px;
-      border-radius: 18px;
-      display: grid;
-      place-items: center;
-      background: var(--pink);
-    }
-
-    .cart-item-info {
-      flex: 1;
-    }
-
-    .cart-item-info p {
+    .cart-item p {
       color: var(--muted);
       font-size: 13px;
-      margin-top: 5px;
+      margin: 5px 0;
     }
 
-    .remove-btn {
-      border: 0;
-      background: transparent;
-      color: #bd8c8c;
-    }
-
-    .total-box {
-      background: linear-gradient(135deg, #f7e2e6, #eee5f8);
-      border-radius: var(--radius);
-      padding: 28px;
-      height: fit-content;
-    }
-
-    .total-row {
-      display: flex;
-      justify-content: space-between;
-      margin: 15px 0;
-    }
-
-    .total-row.total {
-      font-size: 21px;
-      font-weight: 700;
-      border-top: 1px solid rgba(91, 71, 66, 0.15);
-      padding-top: 18px;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 45px 20px;
+    .empty {
       color: var(--muted);
+      padding: 30px 0;
+    }
+
+    .footer {
+      background: var(--mahogany-dark);
+      color: white;
+      padding: 55px 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer .logo {
+      color: white;
+    }
+
+    .footer p {
+      color: #cdbeb5;
+      max-width: 420px;
+      font-size: 13px;
+    }
+
+    .footer h3 {
+      color: white;
+      font-size: 25px;
+    }
+
+    .footer button {
+      display: block;
+      border: 0;
+      background: none;
+      color: #cdbeb5;
+      padding: 7px 0;
+      font-size: 13px;
+    }
+
+    .modal-background {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(41, 26, 21, .65);
+      z-index: 100;
+      padding: 25px;
+    }
+
+    .modal-background.open {
+      display: grid;
+      place-items: center;
     }
 
     .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      display: none;
-      place-items: center;
-      padding: 20px;
-      background: rgba(91, 71, 66, 0.35);
-      backdrop-filter: blur(8px);
-    }
-
-    .modal.show {
-      display: grid;
-    }
-
-    .modal-content {
-      width: min(520px, 100%);
       background: white;
-      border-radius: 30px;
-      padding: 30px;
+      width: min(620px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      padding: 35px;
       position: relative;
-      box-shadow: 0 25px 80px rgba(91, 71, 66, 0.2);
     }
 
-    .close-modal {
+    .modal-close {
       position: absolute;
-      top: 18px;
-      right: 18px;
-      width: 35px;
-      height: 35px;
+      top: 12px;
+      right: 15px;
+      background: none;
       border: 0;
-      border-radius: 50%;
-      background: var(--cream);
+      color: var(--mahogany);
+      font-size: 24px;
     }
 
-    .detail-image {
-      height: 220px;
-      border-radius: 22px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #f8e1e6, #eee5f8);
-      margin-bottom: 25px;
+    .toast {
+      display: none;
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: var(--mahogany-dark);
+      color: white;
+      padding: 15px 20px;
+      z-index: 150;
+      font-size: 13px;
     }
 
-    .detail-image .mini-bottle {
-      transform: scale(1.4);
+    .toast.show {
+      display: block;
     }
 
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 35px 0;
-      color: var(--muted);
-      text-align: center;
-      font-size: 14px;
-    }
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 82px;
+        left: 0;
+        right: 0;
+        background: white;
+        border-bottom: 1px solid var(--line);
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-    @media (max-width: 950px) {
-      .hero,
-      .profile-layout,
-      .cart-layout {
+      .nav-links.open {
+        display: flex;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .hero-grid,
+      .feed-grid {
         grid-template-columns: 1fr;
       }
 
-      .product-grid {
+      .product-grid,
+      .feature-grid,
+      .learning-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .feature-grid,
-      .discover-grid {
+      .finder-form {
         grid-template-columns: 1fr;
       }
 
-      .hero-art {
-        min-height: 280px;
+      .footer-grid {
+        grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 600px) {
       .nav-inner {
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 15px 0;
+        gap: 12px;
       }
 
       .logo {
-        width: 100%;
-        text-align: center;
+        font-size: 35px;
       }
 
-      .nav-links {
-        gap: 3px;
+      .hero {
+        padding: 45px 0;
       }
 
-      .nav-btn {
-        padding: 9px 10px;
-        font-size: 12px;
+      .hero-photo {
+        height: 350px;
       }
 
-      main {
-        padding-top: 20px;
-      }
-
-      .hero,
-      .page-header {
-        padding: 25px;
-      }
-
-      h1 {
+      h2 {
         font-size: 42px;
-      }
-
-      .product-grid {
-        grid-template-columns: 1fr;
       }
 
       .section-heading {
         display: block;
       }
 
-      .section-heading p {
-        margin-top: 10px;
+      .product-grid,
+      .feature-grid,
+      .learning-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .discover-header {
+        padding: 30px 22px;
+      }
+
+      .cart-item {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
   </style>
 </head>
 
 <body>
-  <header class="navbar">
+
+  <div class="topbar">
+    Temukan aroma yang terasa seperti dirimu — welcome to C’meScent.
+  </div>
+
+  <nav class="navbar">
     <div class="container nav-inner">
-      <a href="#" class="logo" onclick="showPage('home')">
-        C’me<span>Scent</span>
+
+      <a href="#" class="logo" onclick="go('home'); return false;">
+        C’meScent
       </a>
 
-      <nav class="nav-links">
-        <button class="nav-btn active" data-page="home" onclick="showPage('home')">Home</button>
-        <button class="nav-btn" data-page="foryou" onclick="showPage('foryou')">For You</button>
-        <button class="nav-btn" data-page="discover" onclick="showPage('discover')">Discover</button>
-        <button class="nav-btn" data-page="collection" onclick="showPage('collection')">Collection</button>
-        <button class="nav-btn" data-page="cart" onclick="showPage('cart')">Cart</button>
-      </nav>
+      <button class="icon-button menu-button" onclick="toggleMenu()">
+        ☰
+      </button>
 
-      <button class="nav-profile" onclick="showPage('profile')">D</button>
+      <div class="nav-links" id="navLinks">
+        <button data-page="home" onclick="go('home')">Home</button>
+        <button data-page="foryou" onclick="go('foryou')">For You</button>
+        <button data-page="discover" onclick="go('discover')">Discover</button>
+        <button data-page="collection" onclick="go('collection')">Collection</button>
+        <button data-page="cart" onclick="go('cart')">Cart</button>
+        <button data-page="profile" onclick="go('profile')">Profile</button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="icon-button" onclick="go('cart')">
+          ♡
+          <span class="badge" id="cartCount">0</span>
+        </button>
+
+        <button class="icon-button" onclick="go('profile')">
+          ◌
+        </button>
+      </div>
+
     </div>
-  </header>
+  </nav>
 
-  <main class="container">
+  <main>
 
-    <!-- HOME -->
     <section id="home" class="page active">
+
       <div class="hero">
-        <div>
-          <div class="eyebrow">Your scent, your story</div>
-          <h1>Find a scent that feels like you.</h1>
-          <p>
-            Temukan parfum yang cocok dengan karakter, suasana hati,
-            dan cerita unikmu. Karena aroma bukan hanya wangi,
-            tetapi juga cara kamu mengekspresikan diri.
-          </p>
+        <div class="container hero-grid">
 
-          <button class="btn" onclick="showPage('discover')">
-            Find Your Scent →
-          </button>
-        </div>
+          <div class="hero-copy">
+            <div class="eyebrow">Your personal fragrance space</div>
 
-        <div class="hero-art">
-          <div class="floating-card one">✦ Soft, personal & timeless</div>
-          <div class="perfume-bottle"></div>
-          <div class="floating-card two">♡ Your signature scent</div>
-        </div>
-      </div>
+            <h1>
+              Find the scent<br>
+              that feels like you.
+            </h1>
 
-      <div class="section-heading">
-        <div>
-          <div class="eyebrow">Curated for you</div>
-          <h2>Popular scents</h2>
-        </div>
-        <p>Beberapa aroma yang paling banyak disukai oleh fragrance lovers.</p>
-      </div>
+            <p>
+              C’meScent membantu kamu menemukan parfum,
+              memahami karakter aroma, dan berbagi pengalaman
+              bersama fragrance lover lainnya.
+            </p>
 
-      <div class="product-grid" id="homeProducts"></div>
+            <div class="hero-buttons">
+              <button class="button" onclick="go('collection')">
+                Explore Collection
+              </button>
 
-      <div class="section-heading">
-        <div>
-          <div class="eyebrow">Why C’meScent</div>
-          <h2>More than perfume</h2>
+              <button class="button secondary" onclick="go('discover')">
+                Discover Your Scent
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-photo">
+            <img
+              src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=1200&q=85"
+              alt="Elegant perfume bottle">
+          </div>
+
         </div>
       </div>
 
-      <div class="feature-grid">
-        <div class="feature-card">
-          <div class="feature-icon">✦</div>
-          <h3>Personal Discovery</h3>
-          <p>Temukan parfum berdasarkan kepribadian, mood, dan aktivitasmu.</p>
-        </div>
+      <section class="section white">
+        <div class="container">
 
-        <div class="feature-card">
-          <div class="feature-icon">♡</div>
-          <h3>Fragrance Community</h3>
-          <p>Berbagi review, rekomendasi, dan pengalaman bersama pecinta parfum.</p>
-        </div>
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Selected for you</div>
+              <h2>Signature scents</h2>
+            </div>
 
-        <div class="feature-card">
-          <div class="feature-icon">☁</div>
-          <h3>Soft Experience</h3>
-          <p>Pengalaman mencari parfum yang tenang, personal, dan menyenangkan.</p>
+            <p>
+              Pilihan aroma yang bisa menemani aktivitas,
+              suasana hati, dan karakter personalmu.
+            </p>
+          </div>
+
+          <div class="product-grid" id="homeProducts"></div>
+
         </div>
-      </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Why C’meScent</div>
+              <h2>More than perfume</h2>
+            </div>
+          </div>
+
+          <div class="feature-grid">
+
+            <div class="feature-card">
+              <div class="feature-number">01</div>
+              <h3>Discover</h3>
+              <p>
+                Pelajari notes, fragrance family, dan karakter
+                aroma dengan bahasa yang mudah dipahami.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-number">02</div>
+              <h3>Find Your Scent</h3>
+              <p>
+                Temukan rekomendasi parfum berdasarkan aktivitas,
+                kepribadian, dan aroma yang kamu sukai.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-number">03</div>
+              <h3>Share</h3>
+              <p>
+                Bagikan SOTD, review, pengalaman, dan diskusi
+                parfum bersama komunitas.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
     </section>
 
-    <!-- FOR YOU -->
     <section id="foryou" class="page">
-      <div class="page-header">
-        <div class="eyebrow">Community space</div>
-        <h2>For You</h2>
+      <section class="section white">
+        <div class="container">
+
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Community fragrance space</div>
+              <h2>For You</h2>
+            </div>
+
+            <button class="button" onclick="openPostForm()">
+              Create Post
+            </button>
+          </div>
+
+          <div class="feed-grid" id="feed"></div>
+
+        </div>
+      </section>
+    </section>
+
+    <section id="discover" class="page">
+      <section class="section white">
+        <div class="container">
+
+          <div class="discover-header">
+            <div class="eyebrow">Learn your fragrance language</div>
+            <h2>Discover</h2>
+
+            <p>
+              Kenali dunia parfum mulai dari notes,
+              fragrance family, cara memakai parfum,
+              sampai memilih aroma berdasarkan suasana.
+            </p>
+
+            <div class="chip-list" id="discoverFilters"></div>
+          </div>
+
+          <div class="learning-grid" id="discoverContent"></div>
+
+          <div class="finder-box">
+            <div class="eyebrow">Personal recommendation</div>
+            <h2>Fragrance Finder</h2>
+
+            <p>
+              Jawab dua pertanyaan sederhana untuk mendapatkan
+              rekomendasi aroma yang cocok untukmu.
+            </p>
+
+            <div class="finder-form">
+
+              <div>
+                <label for="activity">Aktivitas</label>
+
+                <select id="activity">
+                  <option value="Daily">Daily</option>
+                  <option value="Office">Office</option>
+                  <option value="Date">Date</option>
+                  <option value="Outdoor">Outdoor</option>
+                  <option value="Formal">Formal</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="family">Karakter aroma</label>
+
+                <select id="family">
+                  <option value="Fresh">Fresh</option>
+                  <option value="Floral">Floral</option>
+                  <option value="Woody">Woody</option>
+                  <option value="Gourmand">Gourmand</option>
+                  <option value="Musk">Musk</option>
+                </select>
+              </div>
+
+              <button class="button" onclick="findScent()">
+                Find My Scent
+              </button>
+
+            </div>
+
+            <div id="finderResult"></div>
+          </div>
+
+        </div>
+      </section>
+    </section>
+
+    <section id="collection" class="page">
+      <section class="section white">
+        <div class="container">
+
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">The fragrance collection</div>
+              <h2>Collection</h2>
+            </div>
+
+            <p>
+              Pilihan parfum dengan karakter berbeda untuk
+              berbagai suasana dan kebutuhan.
+            </p>
+          </div>
+
+          <div class="product-grid" id="collectionProducts"></div>
+
+        </div>
+      </section>
+    </section>
+
+    <section id="cart" class="page">
+      <section class="section white">
+        <div class="container">
+
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Your personal selection</div>
+              <h2>Cart</h2>
+            </div>
+          </div>
+
+          <div class="cart-box" id="cartContent"></div>
+
+        </div>
+      </section>
+    </section>
+
+    <section id="profile" class="page">
+      <section class="section white">
+        <div class="container">
+
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Your fragrance journal</div>
+              <h2>Profile</h2>
+            </div>
+          </div>
+
+          <div class="profile-box">
+            <h3>Welcome to C’meScent</h3>
+
+            <p>
+              Di halaman ini kamu bisa menyimpan parfum favorit,
+              melihat koleksi pilihan, dan membangun fragrance journal
+              pribadi kamu.
+            </p>
+
+            <button class="button" onclick="go('collection')">
+              Explore Collection
+            </button>
+          </div>
+
+        </div>
+      </section>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+
+      <div>
+        <div class="logo">C’meScent</div>
+
         <p>
-          Tempat untuk berbagi cerita, review parfum, tips,
-          dan menemukan orang-orang dengan selera aroma yang sama.
+          A personal fragrance space for discovering,
+          learning, and sharing the scents that feel like you.
         </p>
       </div>
 
-      <div class="post-form">
-        <h3>Share your scent story</h3>
-        <textarea id="postInput" placeholder="Ceritakan parfum atau aroma favoritmu..."></textarea>
-        <button class="btn" onclick="addPost()">Post your story</button>
+      <div>
+        <h3>Explore</h3>
+
+        <button onclick="go('home')">Home</button>
+        <button onclick="go('discover')">Discover</button>
+        <button onclick="go('collection')">Collection</button>
       </div>
 
-      <div class="filter-bar">
-        <button class="chip active" onclick="filterPosts('all', this)">Semua</button>
-        <button class="chip" onclick="filterPosts('review', this)">Review</button>
-        <button class="chip" onclick="filterPosts('daily', this)">Scent of the Day</button>
-        <button class="chip" onclick="filterPosts('tips', this)">Tips</button>
-        <button class="chip" onclick="filterPosts('discussion', this)">Diskusi</button>
+      <div>
+        <h3>Community</h3>
+
+        <button onclick="go('foryou')">For You</button>
+        <button onclick="go('profile')">Profile</button>
+        <button onclick="go('cart')">Cart</button>
       </div>
 
-      <div id="postList"></div>
-    </section>
-<div class="product-image">
-  <img src="assets/sweet-vanilla.jpg" alt="Sweet Vanilla Eau de Parfum">
-</div>
-  <div class="product-image">
-  <img src="assets/citrus-lemon.jpg" alt="Sweet Vanilla Eau de Parfum">
-</div>
-    <div class="product-image">
-  <img src="assets/woody.jpg" alt="Sweet Vanilla Eau de Parfum">
-</div>
+    </div>
+  </footer>
+
+  <div class="modal-background" id="modalBackground">
+    <div class="modal">
+
+      <button class="modal-close" onclick="closeModal()">
+        ×
+      </button>
+
+      <div id="modalContent"></div>
+
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const products = [
+      {
+        id: 1,
+        name: "Aurelia",
+        brand: "C’meScent",
+        price: 189000,
+        family: "Floral",
+        occasion: "Daily",
+        notes: "Bergamot, Rose, Vanilla",
+        lasting: "6–8 jam",
+        image: "https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?auto=format&fit=crop&w=900&q=85",
+        description: "Floral lembut dengan sentuhan vanilla yang elegan."
+      },
+      {
+        id: 2,
+        name: "Mori",
+        brand: "Local Atelier",
+        price: 149000,
+        family: "Woody",
+        occasion: "Office",
+        notes: "Cedarwood, Musk, Amber",
+        lasting: "5–7 jam",
+        image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=900&q=85",
+        description: "Aroma woody yang tenang, bersih, dan dewasa."
+      },
+      {
+        id: 3,
+        name: "Solé",
+        brand: "Maison Solé",
+        price: 229000,
+        family: "Fresh",
+        occasion: "Outdoor",
+        notes: "Lemon, Bergamot, Musk",
+        lasting: "4–6 jam",
+        image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=900&q=85",
+        description: "Fresh citrus yang ringan dan menyegarkan."
+      },
+      {
+        id: 4,
+        name: "Velvet Milk",
+        brand: "Nusantara Notes",
+        price: 199000,
+        family: "Gourmand",
+        occasion: "Date",
+        notes: "Vanilla, Caramel, Sandalwood",
+        lasting: "7–9 jam",
+        image: "https://images.unsplash.com/photo-1619994403073-2cec844b8e63?auto=format&fit=crop&w=900&q=85",
+        description: "Manis, creamy, dan hangat untuk suasana intim."
+      },
+      {
+        id: 5,
+        name: "Noir Rain",
+        brand: "Atelier N",
+        price: 399000,
+        family: "Musk",
+        occasion: "Formal",
+        notes: "Musk, Amber, Lavender",
+        lasting: "8–10 jam",
+        image: "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=900&q=85",
+        description: "Musk elegan dengan kesan misterius dan sophisticated."
+      },
+      {
+        id: 6,
+        name: "Bloom Room",
+        brand: "Scent Society",
+        price: 175000,
+        family: "Floral",
+        occasion: "Daily",
+        notes: "Peach, Jasmine, Vanilla",
+        lasting: "6–8 jam",
+        image: "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=900&q=85",
+        description: "Floral fruity yang cerah, playful, dan feminin."
+      }
+    ];
+
+    let cart = [];
+    let saved = [];
+    let posts = [];
+
+    const topics = {
+      Basics: [
+        "Apa itu parfum?",
+        "EDT, EDP, dan Extrait",
+        "Cara menyimpan parfum",
+        "Cara memakai parfum"
+      ],
+      Notes: [
+        "Top Notes",
+        "Middle Notes",
+        "Base Notes",
+        "Bergamot",
+        "Lavender",
+        "Rose",
+        "Jasmine",
+        "Vanilla",
+        "Musk",
+        "Cedarwood",
+        "Amber"
+      ],
+      Families: [
+        "Fresh",
+        "Citrus",
+        "Floral",
+        "Fruity",
+        "Sweet",
+        "Vanilla",
+        "Woody",
+        "Musk",
+        "Amber",
+        "Gourmand"
+      ],
+      Occasion: [
+        "Daily",
+        "Kuliah",
+        "Kantor",
+        "Formal",
+        "Date",
+        "Party",
+        "Outdoor",
+        "Olahraga",
+        "Travelling"
+      ],
+      Personality: [
+        "Clean girl",
+        "Elegant",
+        "Sexy",
+        "Calm",
+        "Fresh",
+        "Bold",
+        "Mysterious",
+        "Playful"
+      ]
+    };
+
+    function formatPrice(value) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+    function go(page) {
+      document.querySelectorAll(".page").forEach(section => {
+        section.classList.remove("active");
+      });
+
+      const target = document.getElementById(page);
+
+      if (target) {
+        target.classList.add("active");
+      }
+
+      document.querySelectorAll(".nav-links button").forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.page === page
+        );
+      });
+
+      document.getElementById("navLinks").classList.remove("open");
+
+      if (page === "cart") {
+        renderCart();
+      }
+    }
+
+    function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("open");
+    }
+
+    function productCard(product) {
+      const isSaved = saved.includes(product.id);
+
+      return `
+        <article class="product-card">
+          <img
+            class="product-image"
+            src="${product.image}"
+            alt="${product.name} perfume"
+          >
+
+          <div class="product-content">
+            <div class="product-brand">${product.brand}</div>
+
+            <h3>${product.name}</h3>
+
+            <p class="product-description">
+              ${product.description}
+            </p>
+
+            <div class="product-bottom">
+              <div class="price">
+                ${formatPrice(product.price)}
+              </div>
+
+              <div>
+                <button
+                  class="small-button"
+                  onclick="toggleSave(${product.id})"
+                >
+                  ${isSaved ? "♥" : "♡"}
+                </button>
+
+                <button
+                  class="small-button dark"
+                  onclick="openProduct(${product.id})"
+                >
+                  Detail
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderProducts() {
+      document.getElementById("homeProducts").innerHTML =
+        products.slice(0, 3).map(productCard).join("");
+
+      document.getElementById("collectionProducts").innerHTML =
+        products.map(productCard).join("");
+    }
+
+    function toggleSave(id) {
+      if (saved.includes(id)) {
+        saved = saved.filter(item => item !== id);
+        showToast("Parfum dihapus dari wishlist.");
+      } else {
+        saved.push(id);
+        showToast("Parfum disimpan ke wishlist.");
+      }
+
+      renderProducts();
+    }
+
+    function openProduct(id) {
+      const product = products.find(item => item.id === id);
+
+      if (!product) return;
+
+      document.getElementById("modalContent").innerHTML = `
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          style="width:100%;height:280px;object-fit:cover;"
+        >
+
+        <div class="eyebrow" style="margin-top:25px;">
+          ${product.brand}
+        </div>
+
+        <h2>${product.name}</h2>
+
+        <p>${product.description}</p>
+
+        <p>
+          <strong>Notes:</strong> ${product.notes}<br>
+          <strong>Ketahanan:</strong> ${product.lasting}<br>
+          <strong>Occasion:</strong> ${product.occasion}
+        </p>
+
+        <h3>${formatPrice(product.price)}</h3>
+
+        <button class="button" onclick="addCart(${product.id})">
+          Add to Cart
+        </button>
+      `;
+
+      openModal();
+    }
+
+    function addCart(id) {
+      const product = products.find(item => item.id === id);
+
+      if (!product) return;
+
+      cart.push(product);
+      updateCartCount();
+      closeModal();
+      showToast(`${product.name} ditambahkan ke cart.`);
+    }
+
+    function updateCartCount() {
+      document.getElementById("cartCount").textContent = cart.length;
+    }
+
+    function renderCart() {
+      const cartContent = document.getElementById("cartContent");
+
+      if (cart.length === 0) {
+        cartContent.innerHTML = `
+          <div class="empty">
+            Cart kamu masih kosong.
+          </div>
+        `;
+        return;
+      }
+
+      const total = cart.reduce((sum, product) => {
+        return sum + product.price;
+      }, 0);
+
+      cartContent.innerHTML = `
+        ${cart.map((product, index) => `
+          <div class="cart-item">
+            <div>
+              <h3>${product.name}</h3>
+              <p>${product.brand}</p>
+              <p>${formatPrice(product.price)}</p>
+            </div>
+
+            <button
+              class="small-button"
+              onclick="removeCart(${index})"
+            >
+              Hapus
+            </button>
+          </div>
+        `).join("")}
+
+        <div style="margin-top:25px;">
+          <strong>Total: ${formatPrice(total)}</strong>
+        </div>
+
+        <button
+          class="button"
+          style="margin-top:20px;"
+          onclick="checkout()"
+        >
+          Checkout
+        </button>
+      `;
+    }
+
+    function removeCart(index) {
+      cart.splice(index, 1);
+      updateCartCount();
+      renderCart();
+      showToast("Produk dihapus dari cart.");
+    }
+
+    function checkout() {
+      showToast("Checkout demo berhasil dibuka.");
+    }
+
+    function renderDiscover() {
+      const filters = document.getElementById("discoverFilters");
+
+      filters.innerHTML = Object.keys(topics).map(category => `
+        <button class="chip" onclick="showTopic('${category}')">
+          ${category}
+        </button>
+      `).join("");
+
+      showTopic("Basics");
+    }
+
+    function showTopic(category) {
+      document.getElementById("discoverContent").innerHTML =
+        topics[category].map(topic => `
+          <button
+            class="learning-card"
+            onclick="openArticle('${category}', '${topic}')"
+          >
+            <div class="eyebrow">${category}</div>
+            <h3>${topic}</h3>
+            <p>
+              Pelajari karakter, fungsi, dan tips praktis
+              tentang ${topic}.
+            </p>
+            <span class="button light">Baca Materi</span>
+          </button>
+        `).join("");
+    }
+
+    function openArticle(category, topic) {
+      document.getElementById("modalContent").innerHTML = `
+        <div class="eyebrow">${category}</div>
+        <h2>${topic}</h2>
+
+        <p>
+          Materi edukasi C’meScent membantu kamu memahami
+          ${topic.toLowerCase()} dengan bahasa sederhana.
+        </p>
+
+        <p>
+          Gunakan informasi ini sebagai panduan awal ketika
+          memilih dan menikmati parfum. Coba aroma di kulit,
+          tunggu dry-down, lalu nilai setelah beberapa jam.
+        </p>
+
+        <p>
+          Karakter parfum bisa berubah sesuai suhu,
+          kelembapan, dan chemistry kulit.
+        </p>
+      `;
+
+      openModal();
+    }
+
+    function findScent() {
+      const activity = document.getElementById("activity").value;
+      const family = document.getElementById("family").value;
+
+      const result =
+        products.find(product => product.occasion === activity) ||
+        products.find(product => product.family === family) ||
+        products[0];
+
+      document.getElementById("finderResult").innerHTML = `
+        <div style="margin-top:25px;border-top:1px solid var(--line);padding-top:25px;">
+          <div class="eyebrow">Your recommendation</div>
+          <h3>${result.name}</h3>
+          <p>${result.description}</p>
+          <button class="button" onclick="openProduct(${result.id})">
+            Lihat Detail
+          </button>
+        </div>
+      `;
+    }
+
+    function renderFeed() {
+      const defaultPosts = [
+        {
+          name: "Naya",
+          tag: "SOTD",
+          text: "SOTD hari ini: aroma vanilla yang cozy untuk malam minggu."
+        },
+        {
+          name: "Raka",
+          tag: "Diskusi",
+          text: "Menurut kalian, parfum woody paling cocok dipakai untuk kantor apa?"
+        },
+        {
+          name: "Mila",
+          tag: "Review",
+          text: "Cari parfum fresh yang tidak terlalu menusuk? Coba citrus musk."
+        }
+      ];
+
+      const allPosts = [...defaultPosts, ...posts];
+
+      document.getElementById("feed").innerHTML =
+        allPosts.map(post => `
+          <article class="post">
+            <div class="post-header">
+              <strong>${post.name}</strong>
+              <span class="post-tag">${post.tag}</span>
+            </div>
+
+            <p>${post.text}</p>
+
+            <button
+              class="small-button"
+              onclick="showToast('Fitur like siap digunakan.')"
+            >
+              ♡ Like
+            </button>
+
+            <button
+              class="small-button"
+              onclick="showToast('Fitur komentar siap digunakan.')"
+            >
+              Comment
+            </button>
+          </article>
+        `).join("");
+    }
+
+    function openPostForm() {
+      document.getElementById("modalContent").innerHTML = `
+        <div class="eyebrow">Community</div>
+        <h2>Create Post</h2>
+
+        <label for="postName">Nama</label>
+        <input id="postName" placeholder="Nama kamu">
+
+        <label for="postTag" style="margin-top:15px;">
+          Kategori
+        </label>
+
+        <select id="postTag">
+          <option>SOTD</option>
+          <option>Review</option>
+          <option>Diskusi</option>
+        </select>
+
+        <label for="postText" style="margin-top:15px;">
+          Cerita kamu
+        </label>
+
+        <textarea
+          id="postText"
+          placeholder="Tulis pengalaman parfum kamu..."
+        ></textarea>
+
+        <button
+          class="button"
+          style="margin-top:20px;"
+          onclick="publishPost()"
+        >
+          Publish
+        </button>
+      `;
+
+      openModal();
+    }
+
+    function publishPost() {
+      const name = document.getElementById("postName").value.trim();
+      const tag = document.getElementById("postTag").value;
+      const text = document.getElementById("postText").value.trim();
+
+      if (!name || !text) {
+        showToast("Nama dan cerita harus diisi.");
+        return;
+      }
+
+      posts.unshift({
+        name,
+        tag,
+        text
+      });
+
+      closeModal();
+      renderFeed();
+      showToast("Post berhasil dibuat.");
+    }
+
+    function openModal() {
+      document.getElementById("modalBackground").classList.add("open");
+    }
+
+    function closeModal() {
+      document.getElementById("modalBackground").classList.remove("open");
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+    }
+
+    renderProducts();
+    renderDiscover();
+    renderFeed();
+    updateCartCount();
+  </script>
+
+</body>
+</html>
